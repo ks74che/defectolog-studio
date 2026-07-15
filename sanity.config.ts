@@ -13,7 +13,7 @@ const singletonNames: Record<string, string> = {
 
 export default defineConfig({
   name: "default",
-  title: "Ksenia Defectolog",
+  title: "Сайт Анны",
 
   projectId: "oh19circ",
   dataset: "production",
