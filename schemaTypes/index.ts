@@ -6,6 +6,7 @@ import siteSettings from "./siteSettings";
 import about from "./about";
 import homePage from "./homePage";
 import pageUslugi from "./pageUslugi";
+import pageOtzyvy from "./pageOtzyvy";
 
 export const schemaTypes = [
   review,
@@ -16,4 +17,5 @@ export const schemaTypes = [
   about,
   homePage,
   pageUslugi,
+  pageOtzyvy,
 ];

@@ -4,13 +4,20 @@ import { visionTool } from "@sanity/vision";
 import { schemaTypes } from "./schemaTypes";
 
 // Схемы-синглтоны — которые могут существовать только в 1 экземпляре
-const singletonTypes = ["siteSettings", "about", "homePage", "pageUslugi"];
+const singletonTypes = [
+  "siteSettings",
+  "about",
+  "homePage",
+  "pageUslugi",
+  "pageOtzyvy",
+];
 
 const singletonNames: Record<string, string> = {
   siteSettings: "Настройки сайта",
   about: "Страница «Обо мне»",
   homePage: "🏠 Главная страница",
   pageUslugi: "📝 Страница «Услуги»",
+  pageOtzyvy: "💬 Страница «Отзывы»",
 };
 
 export default defineConfig({
@@ -26,15 +33,10 @@ export default defineConfig({
         S.list()
           .title("Content")
           .items([
-            // Обычные схемы (списки)
             ...S.documentTypeListItems().filter(
               (item) => !singletonTypes.includes(item.getId() ?? "")
             ),
-
-            // Разделитель
             S.divider(),
-
-            // Синглтоны — просто ссылка на единственный документ
             ...singletonTypes.map((type) =>
               S.listItem()
                 .title(singletonNames[type] ?? type)
@@ -48,14 +50,11 @@ export default defineConfig({
 
   schema: {
     types: schemaTypes,
-
-    // Убираем кнопку "Create new" для синглтонов
     templates: (prev) =>
       prev.filter((template) => !singletonTypes.includes(template.schemaType)),
   },
 
   document: {
-    // Убираем "Duplicate" и "Delete" для синглтонов
     actions: (prev, { schemaType }) =>
       singletonTypes.includes(schemaType)
         ? prev.filter(
