@@ -5,5 +5,15 @@ import service from "./service";
 import siteSettings from "./siteSettings";
 import about from "./about";
 import homePage from "./homePage";
+import pageUslugi from "./pageUslugi";
 
-export const schemaTypes = [review, article, category, service, siteSettings, about, homePage];
+export const schemaTypes = [
+  review,
+  article,
+  category,
+  service,
+  siteSettings,
+  about,
+  homePage,
+  pageUslugi,
+];
