@@ -5,24 +5,24 @@ export default defineType({
   title: "Страница «Обо мне»",
   type: "document",
   groups: [
-    { name: "hero", title: "Шапка страницы", default: true },
-    { name: "cards", title: "3 карточки" },
-    { name: "values", title: "Мои ценности" },
-    { name: "qualifications", title: "Повышение квалификации" },
-    { name: "quote", title: "Цитата" },
+    { name: "hero", title: "Верхний блок с заголовком", default: true },
+    { name: "cards", title: "Три карточки с иконками" },
+    { name: "values", title: "Блок в середине страницы" },
+    { name: "qualifications", title: "Блок со списком слева внизу" },
+    { name: "quote", title: "Блок с цитатой справа внизу" },
   ],
   fields: [
-    // ===== HERO =====
+    // ===== ВЕРХНИЙ БЛОК =====
     defineField({
       name: "heroTitle",
-      title: "Заголовок",
+      title: "Главный заголовок страницы",
       type: "string",
       validation: (Rule) => Rule.required(),
       group: "hero",
     }),
     defineField({
       name: "heroSubtitle",
-      title: "Подзаголовок",
+      title: "Текст под заголовком",
       type: "text",
       rows: 2,
       group: "hero",
@@ -30,29 +30,33 @@ export default defineType({
     defineField({
       name: "heroDescription",
       title: "Описание",
+      description: "Основной текст в шапке страницы. Для новой строки нажмите Enter.",
       type: "text",
       rows: 4,
       group: "hero",
     }),
     defineField({
       name: "heroPhoto",
-      title: "Фото специалиста (в круге)",
+      title: "Фото специалиста",
+      description: "Показывается в круглой рамке слева от заголовка.",
       type: "image",
       options: { hotspot: true },
       group: "hero",
     }),
     defineField({
       name: "heroButtonText",
-      title: "Текст кнопки",
+      title: "Текст на кнопке",
       type: "string",
       initialValue: "Записаться на консультацию",
       group: "hero",
     }),
 
-    // ===== 3 КАРТОЧКИ =====
+    // ===== ТРИ КАРТОЧКИ =====
     defineField({
       name: "cards",
-      title: "Три карточки (Образование / Опыт / Подход)",
+      title: "Три карточки",
+      description:
+        "Например: Образование, Опыт работы, Мой подход. Всего должно быть ровно 3 карточки.",
       type: "array",
       of: [
         {
@@ -60,7 +64,8 @@ export default defineType({
           fields: [
             {
               name: "icon",
-              title: "Иконка (в голубом кружке)",
+              title: "Иконка",
+              description: "Показывается в круглом голубом фоне слева от текста.",
               type: "image",
               options: { hotspot: false },
             },
@@ -70,10 +75,12 @@ export default defineType({
               type: "string",
             },
             {
-              name: "lines",
-              title: "Строки текста",
-              type: "array",
-              of: [{ type: "string" }],
+              name: "content",
+              title: "Содержание карточки",
+              description:
+                "Текст карточки. Для новой строки нажмите Enter — как в Word.",
+              type: "text",
+              rows: 4,
             },
           ],
           preview: {
@@ -88,17 +95,19 @@ export default defineType({
       group: "cards",
     }),
 
-    // ===== МОИ ЦЕННОСТИ =====
+    // ===== БЛОК В СЕРЕДИНЕ (Ценности) =====
     defineField({
       name: "valuesTitle",
       title: "Заголовок блока",
+      description: "Показывается над карточками.",
       type: "string",
       initialValue: "Мои ценности",
       group: "values",
     }),
     defineField({
       name: "values",
-      title: "Список ценностей (4 карточки)",
+      title: "Карточки со значками",
+      description: "От 1 до 6 карточек. Каждая — иконка + заголовок + короткий текст.",
       type: "array",
       of: [
         {
@@ -134,23 +143,27 @@ export default defineType({
       group: "values",
     }),
 
-    // ===== ПОВЫШЕНИЕ КВАЛИФИКАЦИИ =====
+    // ===== БЛОК СО СПИСКОМ (Квалификация) =====
     defineField({
       name: "qualificationsTitle",
       title: "Заголовок блока",
+      description: "Показывается над списком.",
       type: "string",
       initialValue: "Повышение квалификации",
       group: "qualifications",
     }),
     defineField({
       name: "qualifications",
-      title: "Список пунктов",
+      title: "Список курсов / повышений квалификации",
+      description:
+        "Каждый пункт — отдельный курс или сертификат. Показывается с точкой • на сайте.",
       type: "array",
       of: [{ type: "string" }],
+      validation: (Rule) => Rule.min(1),
       group: "qualifications",
     }),
 
-    // ===== ЦИТАТА =====
+    // ===== БЛОК С ЦИТАТОЙ =====
     defineField({
       name: "quoteText",
       title: "Текст цитаты",
@@ -161,14 +174,17 @@ export default defineType({
     defineField({
       name: "quoteAuthor",
       title: "Автор цитаты",
+      description: "Обычно — имя специалиста.",
       type: "string",
       group: "quote",
     }),
   ],
   preview: {
-    prepare() {
+    select: { heroTitle: "heroTitle" },
+    prepare({ heroTitle }) {
       return {
-        title: "Страница «Обо мне»",
+        title: "👤 Страница «Обо мне»",
+        subtitle: heroTitle || "не заполнена",
       };
     },
   },

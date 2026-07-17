@@ -7,13 +7,15 @@ export default defineType({
   fields: [
     defineField({
       name: "title",
-      title: "Заголовок",
+      title: "Заголовок статьи",
       type: "string",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "slug",
-      title: "URL-адрес (slug)",
+      title: "Название для ссылки (латиницей, без пробелов)",
+      description:
+        "Автоматически создаётся из заголовка. Можно править вручную. Используется в адресе страницы.",
       type: "slug",
       options: {
         source: "title",
@@ -24,6 +26,8 @@ export default defineType({
     defineField({
       name: "excerpt",
       title: "Краткое описание",
+      description:
+        "Короткий текст (до 200 символов). Показывается в карточке статьи в списке.",
       type: "text",
       rows: 3,
       validation: (Rule) => Rule.required().max(200),
@@ -31,6 +35,7 @@ export default defineType({
     defineField({
       name: "photo",
       title: "Обложка статьи",
+      description: "Главное изображение статьи. Показывается в карточке и на самой странице.",
       type: "image",
       options: { hotspot: true },
       validation: (Rule) => Rule.required(),
@@ -38,6 +43,7 @@ export default defineType({
     defineField({
       name: "category",
       title: "Категория",
+      description: "Выберите категорию из списка. Категории создаются в разделе «Категория статей».",
       type: "reference",
       to: [{ type: "category" }],
       validation: (Rule) => Rule.required(),
@@ -53,12 +59,15 @@ export default defineType({
     defineField({
       name: "readTime",
       title: "Время чтения",
+      description: "Примерная оценка. Пример: «5 мин чтения».",
       type: "string",
       initialValue: "5 мин чтения",
     }),
     defineField({
       name: "content",
-      title: "Текст статьи",
+      title: "Текст статьи (с картинками и форматированием)",
+      description:
+        "Основной текст статьи. Можно добавлять заголовки, списки, ссылки, картинки.",
       type: "array",
       of: [
         { type: "block" },
@@ -71,6 +80,13 @@ export default defineType({
       title: "title",
       subtitle: "category.title",
       media: "photo",
+    },
+    prepare({ title, subtitle, media }) {
+      return {
+        title: title ?? "Без названия",
+        subtitle: subtitle ? `📁 ${subtitle}` : "⚠️ Без категории",
+        media,
+      };
     },
   },
 });

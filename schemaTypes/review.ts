@@ -8,26 +8,44 @@ export default defineType({
     defineField({
       name: "name",
       title: "Имя автора",
+      description:
+        "Например: «Мария, мама Димы» или «Анна». Показывается под текстом отзыва.",
       type: "string",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "text",
       title: "Текст отзыва",
+      description: "Оптимально 2-4 предложения (до 400 символов).",
       type: "text",
       rows: 4,
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) => Rule.required().max(400),
     }),
     defineField({
       name: "rating",
-      title: "Оценка (звёзды)",
+      title: "Оценка",
+      description: "Выберите сколько звёзд показать рядом с отзывом.",
       type: "number",
+      options: {
+        list: [
+          { title: "⭐ 1 звезда", value: 1 },
+          { title: "⭐⭐ 2 звезды", value: 2 },
+          { title: "⭐⭐⭐ 3 звезды", value: 3 },
+          { title: "⭐⭐⭐⭐ 4 звезды", value: 4 },
+          { title: "⭐⭐⭐⭐⭐ 5 звёзд", value: 5 },
+        ],
+        layout: "radio",
+      },
       initialValue: 5,
-      validation: (Rule) => Rule.required().min(1).max(5).integer(),
+      validation: (Rule) => Rule.required(),
     }),
+    // TODO: если понадобится добавить 3-ю категорию — 
+    // править нужно и OtzyvyClient.tsx (там жёстко привязано)
     defineField({
       name: "category",
-      title: "Категория",
+      title: "Категория отзыва",
+      description:
+        "К какой вкладке-фильтру относится отзыв на странице «Отзывы».",
       type: "string",
       options: {
         list: [
@@ -40,22 +58,45 @@ export default defineType({
     }),
     defineField({
       name: "avatar",
-      title: "Фото автора (необязательно)",
+      title: "Фото автора",
+      description:
+        "Не обязательно. Если фото нет — покажется первая буква имени в кружке.",
       type: "image",
       options: { hotspot: true },
     }),
     defineField({
       name: "order",
-      title: "Порядок отображения",
+      title: "Порядок в списке",
+      description:
+        "Чем меньше число — тем выше в списке. Первые 3 отзыва показываются на главной странице.",
       type: "number",
       initialValue: 0,
     }),
   ],
   preview: {
     select: {
-      title: "name",
-      subtitle: "text",
+      name: "name",
+      text: "text",
+      rating: "rating",
+      category: "category",
       media: "avatar",
+    },
+    prepare({ name, text, rating, category, media }) {
+      const stars = "⭐".repeat(rating ?? 0);
+      const catLabel =
+        category === "lessons"
+          ? "О занятиях"
+          : category === "specialist"
+            ? "О специалисте"
+            : "";
+      const shortText = (text ?? "").slice(0, 60);
+      return {
+        title: `${name ?? "Аноним"} ${stars}`,
+        subtitle: catLabel
+          ? `${catLabel} — ${shortText}...`
+          : shortText,
+        media,
+      };
     },
   },
 });

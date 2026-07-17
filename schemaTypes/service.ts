@@ -14,34 +14,44 @@ export default defineType({
     defineField({
       name: "description",
       title: "Описание",
+      description:
+        "Короткий текст под заголовком услуги на карточке.",
       type: "text",
       rows: 4,
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "icon",
-      title: "Иконка (в бежевом кружке)",
+      title: "Иконка услуги",
+      description:
+        "Небольшая иконка, показывается в круглом бежевом фоне на карточке.",
       type: "image",
       options: { hotspot: false },
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "photo",
-      title: "Фото ребёнка",
+      title: "Фото для карточки",
+      description:
+        "Показывается в правом нижнем углу карточки услуги.",
       type: "image",
       options: { hotspot: true },
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "points",
-      title: "Пункты списка (с галочками)",
+      title: "Что входит в услугу",
+      description:
+        "Список пунктов (от 1 до 6). Каждый — отдельная короткая строка. Показываются с галочками.",
       type: "array",
       of: [{ type: "string" }],
       validation: (Rule) => Rule.required().min(1).max(6),
     }),
     defineField({
       name: "order",
-      title: "Порядок отображения",
+      title: "Порядок в списке",
+      description:
+        "Чем меньше число — тем выше в списке. Первые 3 услуги показываются на главной странице.",
       type: "number",
       initialValue: 0,
     }),
@@ -49,8 +59,15 @@ export default defineType({
   preview: {
     select: {
       title: "title",
-      subtitle: "description",
+      order: "order",
       media: "icon",
+    },
+    prepare({ title, order, media }) {
+      return {
+        title: title ?? "Без названия",
+        subtitle: order !== undefined ? `Порядок: ${order}` : "",
+        media,
+      };
     },
   },
 });

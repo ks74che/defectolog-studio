@@ -1,184 +1,199 @@
-import {defineType, defineField, defineArrayMember} from 'sanity'
+import { defineType, defineField, defineArrayMember } from "sanity";
 
 export default defineType({
-  name: 'homePage',
-  title: 'Главная страница',
-  type: 'document',
+  name: "homePage",
+  title: "Главная страница",
+  type: "document",
   groups: [
-    {name: 'hero', title: 'Hero (шапка)'},
-    {name: 'features', title: 'Почему я?'},
-    {name: 'services', title: 'Мои услуги'},
-    {name: 'steps', title: 'Как проходит работа'},
-    {name: 'reviews', title: 'Отзывы'},
-    {name: 'contacts', title: 'Связаться со мной'},
+    { name: "hero", title: "Верхний блок с заголовком" },
+    { name: "features", title: "Три карточки с иконками (левая колонка)" },
+    { name: "services", title: "Три карточки с услугами (правая колонка)" },
+    { name: "steps", title: "Блок с шагами" },
+    { name: "reviews", title: "Блок с отзывами" },
+    { name: "contacts", title: "Блок с кнопками для связи" },
   ],
   fields: [
-    // ===== HERO =====
+    // ===== ВЕРХНИЙ БЛОК =====
     defineField({
-      name: 'titleLine1',
-      title: 'Заголовок — первая строка (голубая)',
-      type: 'string',
-      group: 'hero',
+      name: "titleLine1",
+      title: "Заголовок — первая строка",
+      description: "Показывается голубым цветом.",
+      type: "string",
+      group: "hero",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: 'titleLine2',
-      title: 'Заголовок — вторая строка (коричневая)',
-      type: 'string',
-      group: 'hero',
+      name: "titleLine2",
+      title: "Заголовок — вторая строка",
+      description: "Показывается коричневым цветом.",
+      type: "string",
+      group: "hero",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: 'heroDescription',
-      title: 'Описание под заголовком',
-      type: 'text',
+      name: "heroDescription",
+      title: "Описание под заголовком",
+      type: "text",
       rows: 3,
-      group: 'hero',
+      group: "hero",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: 'heroButtonText',
-      title: 'Текст кнопки',
-      type: 'string',
-      group: 'hero',
+      name: "heroButtonText",
+      title: "Текст на кнопке",
+      type: "string",
+      group: "hero",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: 'heroPhoto',
-      title: 'Фото в круге',
-      type: 'image',
-      options: {hotspot: true},
-      group: 'hero',
+      name: "heroPhoto",
+      title: "Фото",
+      description: "Показывается в круглой рамке слева от заголовка.",
+      type: "image",
+      options: { hotspot: true },
+      group: "hero",
       validation: (Rule) => Rule.required(),
     }),
 
-    // ===== FEATURES (Почему я?) =====
+    // ===== ТРИ КАРТОЧКИ (Почему я?) =====
     defineField({
-      name: 'featuresTitle',
-      title: 'Заголовок секции',
-      type: 'string',
-      group: 'features',
-      initialValue: 'Почему я?',
+      name: "featuresTitle",
+      title: "Заголовок блока",
+      description: "Показывается над карточками.",
+      type: "string",
+      group: "features",
+      initialValue: "Почему я?",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: 'features',
-      title: 'Карточки (ровно 3 штуки)',
-      type: 'array',
-      group: 'features',
+      name: "features",
+      title: "Карточки (ровно 3 штуки)",
+      type: "array",
+      group: "features",
       validation: (Rule) => Rule.length(3),
       of: [
         defineArrayMember({
-          type: 'object',
+          type: "object",
           fields: [
             defineField({
-              name: 'icon',
-              title: 'Иконка',
-              type: 'image',
+              name: "icon",
+              title: "Иконка",
+              description: "Небольшая картинка на карточке.",
+              type: "image",
               validation: (Rule) => Rule.required(),
             }),
             defineField({
-              name: 'label',
-              title: 'Подпись (можно в 2 строки через Enter)',
-              type: 'text',
+              name: "label",
+              title: "Подпись",
+              description: "Короткий текст. Для новой строки нажмите Enter.",
+              type: "text",
               rows: 2,
               validation: (Rule) => Rule.required(),
             }),
           ],
           preview: {
-            select: {title: 'label', media: 'icon'},
+            select: { title: "label", media: "icon" },
           },
         }),
       ],
     }),
 
-    // ===== SERVICES (Мои услуги) =====
+    // ===== ТРИ КАРТОЧКИ (Мои услуги) =====
     defineField({
-      name: 'servicesTitle',
-      title: 'Заголовок секции',
-      type: 'string',
-      group: 'services',
-      initialValue: 'Мои услуги',
+      name: "servicesTitle",
+      title: "Заголовок блока",
+      description:
+        "Сами услуги настраиваются в разделе «Услуга» (слева). На главную попадают первые 3 (с наименьшим порядком).",
+      type: "string",
+      group: "services",
+      initialValue: "Мои услуги",
       validation: (Rule) => Rule.required(),
     }),
 
-    // ===== STEPS (Как проходит работа) =====
+    // ===== БЛОК С ШАГАМИ =====
     defineField({
-      name: 'stepsTitle',
-      title: 'Заголовок секции',
-      type: 'string',
-      group: 'steps',
-      initialValue: 'Как проходит работа',
+      name: "stepsTitle",
+      title: "Заголовок блока",
+      description: "Показывается над шагами.",
+      type: "string",
+      group: "steps",
+      initialValue: "Как проходит работа",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: 'steps',
-      title: 'Шаги (ровно 4 штуки)',
-      type: 'array',
-      group: 'steps',
+      name: "steps",
+      title: "Шаги (ровно 4 штуки)",
+      type: "array",
+      group: "steps",
       validation: (Rule) => Rule.length(4),
       of: [
         defineArrayMember({
-          type: 'object',
+          type: "object",
           fields: [
             defineField({
-              name: 'icon',
-              title: 'Иконка',
-              type: 'image',
+              name: "icon",
+              title: "Иконка",
+              type: "image",
               validation: (Rule) => Rule.required(),
             }),
             defineField({
-              name: 'title',
-              title: 'Заголовок шага',
-              type: 'string',
+              name: "title",
+              title: "Заголовок шага",
+              description:
+                "Например: «Знакомство», «Диагностика». Номер (1, 2, 3, 4) добавится автоматически.",
+              type: "string",
               validation: (Rule) => Rule.required(),
             }),
             defineField({
-              name: 'text',
-              title: 'Описание',
-              type: 'text',
+              name: "text",
+              title: "Описание",
+              type: "text",
               rows: 2,
               validation: (Rule) => Rule.required(),
             }),
           ],
           preview: {
-            select: {title: 'title', subtitle: 'text', media: 'icon'},
+            select: { title: "title", subtitle: "text", media: "icon" },
           },
         }),
       ],
     }),
 
-    // ===== REVIEWS (Отзывы) =====
+    // ===== БЛОК С ОТЗЫВАМИ =====
     defineField({
-      name: 'reviewsTitle',
-      title: 'Заголовок секции',
-      type: 'string',
-      group: 'reviews',
-      initialValue: 'Отзывы',
+      name: "reviewsTitle",
+      title: "Заголовок блока",
+      description:
+        "Сами отзывы настраиваются в разделе «Отзыв» (слева). На главную попадают первые 3 (с наименьшим порядком).",
+      type: "string",
+      group: "reviews",
+      initialValue: "Отзывы",
       validation: (Rule) => Rule.required(),
     }),
 
-    // ===== CONTACTS (Связаться) =====
+    // ===== БЛОК С КНОПКАМИ ДЛЯ СВЯЗИ =====
     defineField({
-      name: 'contactsTitle',
-      title: 'Заголовок секции',
-      type: 'string',
-      group: 'contacts',
-      initialValue: 'Связаться со мной',
+      name: "contactsTitle",
+      title: "Заголовок блока",
+      description:
+        "Мессенджеры и телефон настраиваются в разделе «Настройки сайта» → Контакты.",
+      type: "string",
+      group: "contacts",
+      initialValue: "Связаться со мной",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: 'contactsSubtitle',
-      title: 'Подзаголовок',
-      type: 'string',
-      group: 'contacts',
-      initialValue: 'Выберите удобный способ связи',
+      name: "contactsSubtitle",
+      title: "Текст под заголовком",
+      type: "string",
+      group: "contacts",
+      initialValue: "Выберите удобный способ связи",
       validation: (Rule) => Rule.required(),
     }),
   ],
   preview: {
     prepare() {
-      return {title: '🏠 Главная страница'}
+      return { title: "🏠 Главная страница" };
     },
   },
-})
+});
