@@ -15,13 +15,21 @@ const singletonTypes = [
 ];
 
 const singletonNames: Record<string, string> = {
-  siteSettings: "Настройки сайта",
-  about: "Страница «Обо мне»",
+  siteSettings: "⚙️ Настройки сайта",
+  about: "👤 Страница «Обо мне»",
   homePage: "🏠 Главная страница",
   pageUslugi: "📝 Страница «Услуги»",
   pageOtzyvy: "💬 Страница «Отзывы»",
   pageStati: "📚 Страница «Статьи»",
   pageContacts: "📞 Страница «Контакты»",
+};
+
+// Иконки для обычных схем (в сайдбаре)
+const typeIcons: Record<string, string> = {
+  review: "💬 Отзыв",
+  article: "📄 Статья",
+  category: "🏷️ Категория статей",
+  service: "🎯 Услуга",
 };
 
 export default defineConfig({
@@ -37,10 +45,19 @@ export default defineConfig({
         S.list()
           .title("Content")
           .items([
-            ...S.documentTypeListItems().filter(
-              (item) => !singletonTypes.includes(item.getId() ?? "")
-            ),
+            // Обычные схемы (с иконками)
+            ...S.documentTypeListItems()
+              .filter((item) => !singletonTypes.includes(item.getId() ?? ""))
+              .map((item) => {
+                const id = item.getId() ?? "";
+                const customTitle = typeIcons[id];
+                return customTitle ? item.title(customTitle) : item;
+              }),
+
+            // Разделитель
             S.divider(),
+
+            // Синглтоны
             ...singletonTypes.map((type) =>
               S.listItem()
                 .title(singletonNames[type] ?? type)
