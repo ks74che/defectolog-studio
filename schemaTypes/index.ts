@@ -8,6 +8,7 @@ import homePage from "./homePage";
 import pageUslugi from "./pageUslugi";
 import pageOtzyvy from "./pageOtzyvy";
 import pageStati from "./pageStati";
+import pageContacts from "./pageContacts";
 
 export const schemaTypes = [
   review,
@@ -20,4 +21,5 @@ export const schemaTypes = [
   pageUslugi,
   pageOtzyvy,
   pageStati,
+  pageContacts,
 ];
