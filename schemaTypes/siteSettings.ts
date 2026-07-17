@@ -60,6 +60,19 @@ export default defineType({
       type: "string",
       group: "contacts",
     }),
+    // TODO: возможно заменим на другой мессенджер (VK / Viber / Max) — уточнить у заказчицы
+    defineField({
+      name: "whatsapp",
+      title: "WhatsApp — номер (только цифры, без + и пробелов)",
+      type: "string",
+      group: "contacts",
+    }),
+    defineField({
+      name: "whatsappNote",
+      title: "Подпись под WhatsApp",
+      type: "string",
+      group: "contacts",
+    }),
     defineField({
       name: "email",
       title: "Email",

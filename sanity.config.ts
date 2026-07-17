@@ -4,11 +4,12 @@ import { visionTool } from "@sanity/vision";
 import { schemaTypes } from "./schemaTypes";
 
 // Схемы-синглтоны — которые могут существовать только в 1 экземпляре
-const singletonTypes = ["siteSettings", "about"];
+const singletonTypes = ["siteSettings", "about", "homePage"];
 
 const singletonNames: Record<string, string> = {
   siteSettings: "Настройки сайта",
   about: "Страница «Обо мне»",
+  homePage: "🏠 Главная страница",
 };
 
 export default defineConfig({
