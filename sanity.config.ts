@@ -10,6 +10,7 @@ const singletonTypes = [
   "homePage",
   "pageUslugi",
   "pageOtzyvy",
+  "pageStati",
 ];
 
 const singletonNames: Record<string, string> = {
@@ -18,6 +19,7 @@ const singletonNames: Record<string, string> = {
   homePage: "🏠 Главная страница",
   pageUslugi: "📝 Страница «Услуги»",
   pageOtzyvy: "💬 Страница «Отзывы»",
+  pageStati: "📚 Страница «Статьи»",
 };
 
 export default defineConfig({
