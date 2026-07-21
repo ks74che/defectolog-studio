@@ -1,9 +1,9 @@
 import { defineConfig } from "sanity";
 import { structureTool } from "sanity/structure";
 import { visionTool } from "@sanity/vision";
+import { ruKZLocale } from "@sanity/locale-ru-kz";
 import { schemaTypes } from "./schemaTypes";
 
-// Схемы-синглтоны — которые могут существовать только в 1 экземпляре
 const singletonTypes = [
   "siteSettings",
   "about",
@@ -24,7 +24,6 @@ const singletonNames: Record<string, string> = {
   pageContacts: "📞 Страница «Контакты»",
 };
 
-// Иконки для обычных схем (в сайдбаре)
 const typeIcons: Record<string, string> = {
   review: "💬 Отзыв",
   article: "📄 Статья",
@@ -39,13 +38,24 @@ export default defineConfig({
   projectId: "oh19circ",
   dataset: "production",
 
+  // 🚫 Отключаем ненужные для заказчицы функции
+  releases: {
+    enabled: false,
+  },
+  scheduledPublishing: {
+    enabled: false,
+  },
+
   plugins: [
+    ruKZLocale(),
+
     structureTool({
+      name: "structure",
+      title: "Разделы",
       structure: (S) =>
         S.list()
-          .title("Content")
+          .title("Разделы")
           .items([
-            // Обычные схемы (с иконками)
             ...S.documentTypeListItems()
               .filter((item) => !singletonTypes.includes(item.getId() ?? ""))
               .map((item) => {
@@ -53,11 +63,7 @@ export default defineConfig({
                 const customTitle = typeIcons[id];
                 return customTitle ? item.title(customTitle) : item;
               }),
-
-            // Разделитель
             S.divider(),
-
-            // Синглтоны
             ...singletonTypes.map((type) =>
               S.listItem()
                 .title(singletonNames[type] ?? type)
@@ -66,7 +72,11 @@ export default defineConfig({
             ),
           ]),
     }),
-    visionTool(),
+
+    visionTool({
+      name: "vision",
+      title: "GROQ-запросы",
+    }),
   ],
 
   schema: {
