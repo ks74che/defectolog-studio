@@ -51,6 +51,16 @@ export default defineType({
       description: "Показывается в круглой рамке слева от заголовка.",
       type: "image",
       options: { hotspot: true },
+      fields: [
+        defineField({
+          name: "alt",
+          title: "Описание фото",
+          description:
+            "Коротко опишите, что на фото. Нужно для поисковиков и людей с плохим зрением.",
+          type: "string",
+          validation: (Rule) => Rule.required(),
+        }),
+      ],
       group: "hero",
       validation: (Rule) => Rule.required(),
     }),
@@ -139,8 +149,7 @@ export default defineType({
             defineField({
               name: "title",
               title: "Заголовок шага",
-              description:
-                "Например: «Знакомство», «Диагностика». Номер (1, 2, 3, 4) добавится автоматически.",
+              description: "Номер (1, 2, 3, 4) добавится автоматически.",
               type: "string",
               validation: (Rule) => Rule.required(),
             }),

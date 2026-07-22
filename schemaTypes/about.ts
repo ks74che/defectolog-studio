@@ -41,6 +41,16 @@ export default defineType({
       description: "Показывается в круглой рамке слева от заголовка.",
       type: "image",
       options: { hotspot: true },
+      fields: [
+        defineField({
+          name: "alt",
+          title: "Описание фото",
+          description:
+            "Коротко опишите, что на фото. Нужно для поисковиков и людей с плохим зрением.",
+          type: "string",
+          validation: (Rule) => Rule.required(),
+        }),
+      ],
       group: "hero",
     }),
     defineField({
@@ -55,8 +65,7 @@ export default defineType({
     defineField({
       name: "cards",
       title: "Три карточки",
-      description:
-        "Например: Образование, Опыт работы, Мой подход. Всего должно быть ровно 3 карточки.",
+      description: "Всего должно быть ровно 3 карточки.",
       type: "array",
       of: [
         {
