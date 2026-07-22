@@ -54,6 +54,41 @@ export default defineType({
       },
       validation: (Rule) => Rule.required(),
     }),
+    // ===== НОВОЕ ПОЛЕ: ИСТОЧНИК =====
+    defineField({
+      name: 'source',
+      title: 'Откуда пришёл отзыв',
+      description:
+        'Показывается на карточке под текстом. Помогает клиентам понять, что отзыв настоящий.',
+      type: 'string',
+      options: {
+        list: [
+          {title: '📱 WhatsApp', value: 'whatsapp'},
+          {title: '✈️ Telegram', value: 'telegram'},
+          {title: '💬 Личная беседа', value: 'personal'},
+          {title: '📧 Email', value: 'email'},
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'whatsapp',
+    }),
+    // ===== НОВОЕ ПОЛЕ: СКРИНШОТ =====
+    defineField({
+      name: 'screenshot',
+      title: 'Скриншот переписки (не обязательно)',
+      description:
+        'Если загрузите — на карточке отзыва появится иконка. При клике клиент увидит оригинал переписки. Повышает доверие.',
+      type: 'image',
+      options: {hotspot: true},
+      fields: [
+        defineField({
+          name: 'alt',
+          title: 'Описание скриншота',
+          description: 'Коротко опишите, что на скриншоте. Нужно для поисковиков.',
+          type: 'string',
+        }),
+      ],
+    }),
     defineField({
       name: 'avatar',
       title: 'Фото автора',
