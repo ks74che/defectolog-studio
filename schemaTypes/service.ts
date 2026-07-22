@@ -14,8 +14,7 @@ export default defineType({
     defineField({
       name: "description",
       title: "Описание",
-      description:
-        "Короткий текст под заголовком услуги на карточке.",
+      description: "Короткий текст под заголовком услуги на карточке.",
       type: "text",
       rows: 4,
       validation: (Rule) => Rule.required(),
@@ -27,15 +26,32 @@ export default defineType({
         "Небольшая иконка, показывается в круглом бежевом фоне на карточке.",
       type: "image",
       options: { hotspot: false },
+      fields: [
+        defineField({
+          name: "alt",
+          title: "Описание иконки",
+          description: "Коротко опишите, что изображено. Нужно для поисковиков.",
+          type: "string",
+        }),
+      ],
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "photo",
       title: "Фото для карточки",
-      description:
-        "Показывается в правом нижнем углу карточки услуги.",
+      description: "Показывается в правом нижнем углу карточки услуги.",
       type: "image",
       options: { hotspot: true },
+      fields: [
+        defineField({
+          name: "alt",
+          title: "Описание фото",
+          description:
+            "Коротко опишите, что на фото. Нужно для поисковиков и людей с плохим зрением.",
+          type: "string",
+          validation: (Rule) => Rule.required(),
+        }),
+      ],
       validation: (Rule) => Rule.required(),
     }),
     defineField({
@@ -59,13 +75,19 @@ export default defineType({
   preview: {
     select: {
       title: "title",
+      description: "description",
       order: "order",
-      media: "icon",
+      media: "photo",
     },
-    prepare({ title, order, media }) {
+    prepare({ title, description, order, media }) {
+      const shortDesc = description
+        ? description.length > 60
+          ? description.slice(0, 60) + "…"
+          : description
+        : "";
       return {
         title: title ?? "Без названия",
-        subtitle: order !== undefined ? `Порядок: ${order}` : "",
+        subtitle: `№${order ?? 0} · ${shortDesc}`,
         media,
       };
     },

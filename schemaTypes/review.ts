@@ -8,8 +8,7 @@ export default defineType({
     defineField({
       name: "name",
       title: "Имя автора",
-      description:
-        "Например: «Мария, мама Димы» или «Анна». Показывается под текстом отзыва.",
+      description: "Показывается под текстом отзыва.",
       type: "string",
       validation: (Rule) => Rule.required(),
     }),
@@ -68,7 +67,7 @@ export default defineType({
       name: "order",
       title: "Порядок в списке",
       description:
-        "Чем меньше число — тем выше в списке. Первые 3 отзыва показываются на главной странице.",
+        "Чем меньше число — тем выше отзыв в списке. Первые 3 отзыва показываются также на главной странице.",
       type: "number",
       initialValue: 0,
     }),

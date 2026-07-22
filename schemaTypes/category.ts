@@ -27,18 +27,18 @@ export default defineType({
       name: "pillColor",
       title: "Цвет фона категории",
       description:
-        "Цвет плашки категории на карточке статьи. Формат: #XXXXXX (пример: #EDE4D3). Подобрать цвет можно на htmlcolorcodes.com",
-      type: "string",
-      initialValue: "#EDE4D3",
+        "Цвет плашки категории на карточках статей. Выберите цвет мышкой из палитры.",
+      type: "color",
+      options: { disableAlpha: true },
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "pillTextColor",
       title: "Цвет текста",
       description:
-        "Цвет текста внутри плашки. Формат: #XXXXXX (пример: #4A5D6E).",
-      type: "string",
-      initialValue: "#4A5D6E",
+        "Цвет текста внутри плашки категории. Выберите цвет мышкой из палитры.",
+      type: "color",
+      options: { disableAlpha: true },
       validation: (Rule) => Rule.required(),
     }),
     defineField({
@@ -53,7 +53,7 @@ export default defineType({
       name: "order",
       title: "Порядок в списке",
       description:
-        "Чем меньше число — тем выше в списке. 0 = самое верхнее.",
+        "Чем меньше число — тем выше категория в списке. 0 = самая верхняя.",
       type: "number",
       initialValue: 0,
     }),
