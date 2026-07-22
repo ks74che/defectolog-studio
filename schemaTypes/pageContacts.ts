@@ -36,9 +36,19 @@ export default defineType({
     }),
     defineField({
       name: "heroPhoto",
-      title: "Фото (например, кабинета)",
+      title: "Фото кабинета",
+      description: "Показывается в верхнем блоке страницы.",
       type: "image",
       options: { hotspot: true },
+      fields: [
+        defineField({
+          name: "alt",
+          title: "Описание фото",
+          description:
+            "Коротко опишите, что на фото. Нужно для поисковиков и людей с плохим зрением.",
+          type: "string",
+        }),
+      ],
       group: "hero",
     }),
 
@@ -78,7 +88,9 @@ export default defineType({
             }),
             defineField({
               name: "title",
-              title: "Заголовок карточки (например: Телефон, Max, VK)",
+              title: "Заголовок карточки",
+              description:
+                "Название канала связи: Телефон, Max, VK, Email и т.п.",
               type: "string",
               validation: (Rule) => Rule.required(),
             }),
@@ -95,8 +107,9 @@ export default defineType({
             }),
             defineField({
               name: "link",
-              title:
-                "Ссылка при клике (не обязательно). Примеры: tel:+79991234567, mailto:test@mail.ru, https://t.me/username",
+              title: "Ссылка при клике (не обязательно)",
+              description:
+                "Форматы: tel:+79991234567 для звонка, mailto:test@mail.ru для письма, https://t.me/username для мессенджера.",
               type: "string",
             }),
           ],
